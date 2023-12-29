@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,14 @@ import {
 } from 'react-native';
 
 const ReplyItem = ({reply, onMention}) => {
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLike = () => {
+    setLikes(likes + (isLiked ? -1 : 1));
+    setIsLiked(!isLiked);
+  };
+
   const handleMention = () => {
     onMention(reply.name);
   };
@@ -34,8 +42,8 @@ const ReplyItem = ({reply, onMention}) => {
       </View>
       <View style={styles.commentContainer}>
         <Text>1hr</Text>
-        <TouchableOpacity onPress={() => console.log('it is like')}>
-          <Text>Like</Text>
+        <TouchableOpacity onPress={handleLike}>
+          <Text>{isLiked ? 'Unlike' : 'Like'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleMention}>
           <Text>Reply</Text>
@@ -79,11 +87,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   singleComment: {
-    width: '50%',
+    width: '75%',
     borderColor: '#000',
     borderRadius: 15,
     paddingHorizontal: 5,
-    paddingVertical: 5,
+    paddingVertical: 8,
     backgroundColor: '#f5f5f5',
   },
 });

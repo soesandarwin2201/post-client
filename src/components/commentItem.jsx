@@ -18,9 +18,9 @@ const CommentItem = ({comment}) => {
   const [mentionTarget, setMentionTarget] = useState(null);
   const [fadeIn] = useState(new Animated.Value(0));
   const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
-    // Trigger fade-in animation when a new comment is added
     Animated.timing(fadeIn, {
       toValue: 1,
       duration: 500,
@@ -47,12 +47,12 @@ const CommentItem = ({comment}) => {
   };
 
   const handleLike = () => {
-    setLikes(likes + 1);
+    setLikes(likes + (isLiked ? -1 : 1));
+    setIsLiked(!isLiked);
   };
 
   return (
     <Animated.View style={[styles.container, {opacity: fadeIn}]}>
-      {/* Comment Info */}
       <View style={styles.commentInfo}>
         <Image style={styles.image} source={require('../assets/person.jpg')} />
         <View style={styles.singleComment}>
@@ -63,7 +63,7 @@ const CommentItem = ({comment}) => {
       <View style={styles.commentContainer}>
         <Text>7h</Text>
         <TouchableOpacity onPress={handleLike}>
-          <Text> {likes} Like</Text>
+          <Text>{isLiked ? 'Unlike' : 'Like'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={toggleReplies}>
           <Text>Reply</Text>

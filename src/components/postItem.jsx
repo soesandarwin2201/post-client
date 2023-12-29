@@ -19,6 +19,7 @@ const PostItem = ({post}) => {
   const [comments, setComments] = useState(post.comments || []);
   const [isCommentModalVisible, setCommentModalVisible] = useState(false);
   const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleComment = () => {
     setComments([
@@ -43,7 +44,8 @@ const PostItem = ({post}) => {
   };
 
   const handleLike = () => {
-    setLikes(likes + 1);
+    setLikes(likes + (isLiked ? -1 : 1));
+    setIsLiked(!isLiked);
   };
 
   return (
@@ -67,7 +69,7 @@ const PostItem = ({post}) => {
 
       <View style={styles.commentContainer}>
         <TouchableOpacity onPress={handleLike}>
-          <Text> {likes} Like</Text>
+          <Text>{isLiked ? 'Unlike' : 'Like'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={toggleCommentModal}>
           <Text>Comment</Text>
